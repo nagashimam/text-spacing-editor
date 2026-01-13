@@ -16,17 +16,18 @@ export const buildCSSToInject = (css: TStyle | string, tabId: number) => {
   }
 
   for (const [key, value] of Object.entries(css)) {
+    // Skip empty values to avoid invalid CSS
+    if (value === "") {
+      continue
+    }
+
     // Parse style object and format CSS properties
     if (key === "paragraph-spacing") {
       paragraphStyles += `margin-bottom: ${value}em !important;`
     } else if (key !== "line-height") {
-      globalStyles += `${key}: ${
-        value !== "" ? `${value}em !important;` : value
-      }`
+      globalStyles += `${key}: ${value}em !important;`
     } else {
-      globalStyles += `${key}: ${
-        value !== "" ? `${value} !important;` : value
-      }`
+      globalStyles += `${key}: ${value} !important;`
     }
   }
 
